@@ -3,6 +3,7 @@ import { Node } from "./node.js";
 export class Tree {
   constructor(arr) {
     this.root = this.buildTree(arr);
+    this.copyArray = arr
   }
 
   buildTree(array) {
@@ -24,6 +25,39 @@ export class Tree {
     return createTree(0, sortedArray.length - 1)
   }
 
+  insert(key) {
+    this.copyArray.push(key);
+    
+    return this.root = this.buildTree(this.copyArray);
+  }
+
+  deleteItem(key) {
+    const index = this.copyArray.indexOf(key)
+    this.copyArray.splice(index, 1);
+
+    return this.root = this.buildTree(this.copyArray);
+  }
+
+  find(key) {
+    function SearchNode(node, key) {
+      if (node === null) {
+        return null;
+      }
+
+      if (key === node.data) {
+        return node;
+      }
+
+      if (key < node.data) {
+        return SearchNode(node.left, key);
+      } else if (key > node.data) {
+        return SearchNode(node.right, key);
+      }
+    }
+
+    return SearchNode(this.root, key);
+  }
+
   prettyPrint(node, prefix = "", isLeft = true) {
     if (node === null) {
       return;
@@ -42,4 +76,7 @@ export class Tree {
 const array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 
 const tree = new Tree(array);
+tree.insert(12, array)
+tree.deleteItem(12)
+console.log(tree.find(324))
 console.log(tree.prettyPrint(tree.root))
