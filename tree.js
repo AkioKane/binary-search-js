@@ -76,6 +76,36 @@ export class Tree {
     if (levelList.length > 0) return levelList;
   }
 
+  inOrder(callback, node = this.root, inOrderList = []) {
+    if (node === null) return;
+
+    this.inOrder(callback, node.left, inOrderList);
+    callback ? callback(node) : inOrderList.push(node.data);
+    this.inOrder(callback, node.right, inOrderList);
+
+    if (inOrderList.length > 0) return inOrderList;
+  }
+
+  preOrder(callback, node = this.root, inOrderList = []) {
+    if (node === null) return;
+
+    callback ? callback(node) : inOrderList.push(node.data);
+    this.inOrder(callback, node.left, inOrderList);
+    this.inOrder(callback, node.right, inOrderList);
+
+    if (inOrderList.length > 0) return inOrderList;
+  }
+
+  postOrder(callback, node = this.root, inOrderList = []) {
+    if (node === null) return;
+
+    this.inOrder(callback, node.left, inOrderList);
+    this.inOrder(callback, node.right, inOrderList);
+    callback ? callback(node) : inOrderList.push(node.data);
+
+    if (inOrderList.length > 0) return inOrderList;
+  }
+
   prettyPrint(node, prefix = "", isLeft = true) {
     if (node === null) {
       return;
@@ -100,4 +130,7 @@ tree.deleteItem(12)
 
 console.log(tree.find(324))
 console.log(tree.prettyPrint(tree.root))
-console.log(tree.levelOrder())
+// console.log(tree.levelOrder())
+// console.log(tree.inOrder())
+// console.log(tree.preOrder())
+// console.log(tree.postOrder())
