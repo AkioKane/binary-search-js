@@ -106,6 +106,41 @@ export class Tree {
     if (inOrderList.length > 0) return inOrderList;
   }
 
+  height(node) {
+    if (node === null) return 0;
+
+    const leftChild = this.height(node.left)
+    const rightChild = this.height(node.right)
+
+    return Math.max(leftChild, rightChild) + 1;
+  }
+
+  depth(node) {
+    if (node === null) return 0;
+
+    function SearchDepth(root, node, index = 1) {
+      if (root === null) {
+        return null;
+      }
+      
+      if (node === root.data) {
+        return index;
+      }
+
+      if (node < root.data) {
+        return SearchDepth(root.left, node, index+1);
+      } else if (node > root.data) {
+        return SearchDepth(root.right, node, index+1);
+      }
+    }
+
+    return SearchDepth(this.root, node.data);
+  }
+
+  isBalanced() {
+
+  }
+
   prettyPrint(node, prefix = "", isLeft = true) {
     if (node === null) {
       return;
@@ -125,12 +160,23 @@ const array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 
 const tree = new Tree(array);
 
-tree.insert(12, array)
+tree.insert(12)
+tree.insert(15)
+tree.insert(17)
+tree.insert(19)
+tree.insert(155)
+tree.insert(115)
 tree.deleteItem(12)
 
 console.log(tree.find(324))
 console.log(tree.prettyPrint(tree.root))
-// console.log(tree.levelOrder())
-// console.log(tree.inOrder())
-// console.log(tree.preOrder())
-// console.log(tree.postOrder())
+
+console.log("\nOrders tree: ")
+console.log(tree.levelOrder())
+console.log(tree.inOrder())
+console.log(tree.preOrder())
+console.log(tree.postOrder())
+
+const nodeHeight = tree.find(5)
+console.log("\nHeight node 5: " + tree.height(nodeHeight))
+console.log("Depth node 5: " + tree.depth(nodeHeight))
